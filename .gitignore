@@ -1,0 +1,4 @@
+#to set up a global gitignore file -> git config --global core.excludesfile '~/.gitignore'
+.*
+build
+eclipse-bin
