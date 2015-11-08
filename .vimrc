@@ -22,3 +22,6 @@ nnoremap <C-Down> <C-e>
 "sets easy toggle of highlighted search by pressing control-h
 let hlstate=0
 nnoremap <C-h> :if (hlstate == 0) \| nohlsearch \| else \| set hlsearch \| endif \| let hlstate=1-hlstate<cr>
+
+"remove trailing whitespace by pressing F7
+nnoremap <F7> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
