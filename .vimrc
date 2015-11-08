@@ -4,6 +4,7 @@ set shiftwidth=4
 set expandtab
 set number
 set nowrap
+syntax on
 
 "after typing '/*<enter>', it moves to the next line and inserts the <space>*<space> for you
 set formatoptions+=r
