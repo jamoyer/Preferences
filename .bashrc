@@ -47,12 +47,12 @@ esac
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
-    # We have color support; assume it's compliant with Ecma-48
-    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-    # a case would tend to support setf rather than setaf.)
-    color_prompt=yes
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
     else
-    color_prompt=
+	color_prompt=
     fi
 fi
 
@@ -78,6 +78,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
+
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -90,7 +91,7 @@ alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
@@ -112,6 +113,10 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export VISUAL=/usr/bin/vim
+export EDITOR="$VISUAL"
+PATH=$PATH:~/scripts
+
 #"[username@host directory time]$ "
 PS1="[\u@\h \W \t]\\$ "
 
@@ -119,4 +124,11 @@ PS1="[\u@\h \W \t]\\$ "
 rmold ()
 {
     (ls -t | head -n $1;ls) | sort | uniq -u | sed -e 's,.*,"&",g' | xargs --no-run-if-empty rm
+}
+
+#removes all old linux kernel headers
+#allows more free space on /boot for ubuntu
+rmoldkh ()
+{
+    sudo apt-get purge $(dpkg -l linux-{image,headers}-"[0-9]*" | awk '/ii/{print $2}' | grep -ve "$(uname -r | sed -r 's/-[a-z]+//')")
 }
